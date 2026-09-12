@@ -139,7 +139,9 @@ function Render.show(submap, screen, geometry)
 
   -- Panel chrome plus per-row height, measured from the rendered widget at the default theme
   local pos = Render.position
-  if not pos:find("center") and (102 + num_items * 24) > lh * 0.9 then pos = "bottom-center" end
+  if not pos:find("center") and (102 + num_items * 24) > lh * 0.9 then
+    pos = pos:find("^top") and "top-center" or "bottom-center"
+  end
 
   local window = "whichkey-" .. pos
   local title = submap == "GLOBAL" and "Global Bindings" or submap
