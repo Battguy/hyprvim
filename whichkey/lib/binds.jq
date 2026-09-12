@@ -48,6 +48,13 @@ def normalize_key(key; modmask):
       else (.submap // "") == $sm end
     )
   | select((.description // "") != "")
+  # Exit keys are shown in the HUD footer, not as rows
+  | select(
+      ((.key // "" | ascii_downcase) as $k | ($k == "escape" or $k == "backspace"))
+      and ((.modmask // 0) == 0)
+      and ((.description // "") | test("^(exit|back|close|cancel|escape)\\b"; "i"))
+      | not
+    )
   | {
       key:   normalize_key(.key // ""; .modmask // 0),
       desc:  (.description // ""),
