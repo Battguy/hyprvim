@@ -11,7 +11,8 @@ local Callback = require("lib.callback") ---@class Callback
 --- @class Prompt
 local Prompt = {}
 
-local sq = require("lib.utils").sh_escape
+local Utils = require("lib.utils") ---@class HyprVimUtils
+local sq = Utils.sh_escape
 
 ---Build the terminal command that displays a prompt and writes input to state_file.
 ---Returns nil if the prompt script cannot be written.
@@ -21,7 +22,7 @@ local sq = require("lib.utils").sh_escape
 ---@return string|nil
 local function build_cmd(label, opts, state_file)
   local wm_class = opts.wm_class or "hyprvim-prompt"
-  local script = os.tmpname()
+  local script = Utils.tmp_path("prompt-script")
   local f = io.open(script, "w")
   if not f then return nil end
 
@@ -83,7 +84,7 @@ end
 ---@param opts     {wm_class?: string, completions?: string[]}
 ---@param callback fun(result: string|nil)
 function Prompt.async(label, opts, callback)
-  local state_file = os.tmpname()
+  local state_file = Utils.tmp_path("prompt-input")
 
   local cmd = build_cmd(label, opts, state_file)
   if not cmd then

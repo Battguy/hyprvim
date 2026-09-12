@@ -139,7 +139,7 @@ function Items.resolve(submap)
   local function fetch()
     return Items.build_mark_items(submap) or Items.build_register_items(submap) or Hyprctl.build_items(submap) or "[]"
   end
-  local tmp = os.tmpname()
+  local tmp = Utils.tmp_path("whichkey-items")
   local items = fetch()
   write_file(tmp, items)
   local count = tonumber(pread("jq -c 'length' " .. sh_escape(tmp) .. " 2>/dev/null")) or 0
