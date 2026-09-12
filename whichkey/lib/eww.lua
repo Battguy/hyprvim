@@ -43,16 +43,24 @@ end
 --- @param items string  JSON array
 --- @param lw integer  logical monitor width in pixels
 --- @param jq_items fun(expr: string): string
-function Eww.update_layout(pos, title, items, lw, jq_items)
+--- @param ncols integer|nil  columns to split across in center layouts, 1-4 (default 4)
+function Eww.update_layout(pos, title, items, lw, jq_items, ncols)
   if pos:find("center") then
+    ncols = math.min(4, math.max(1, ncols or 4))
+    local cols = {}
+    for i = 1, 4 do
+      cols[i] = i <= ncols
+          and jq_items(string.format("[to_entries | .[] | select(.key %% %d == %d) | .value]", ncols, i - 1))
+        or "[]"
+    end
     Eww.run(
       string.format(
         "update title=%s col1=%s col2=%s col3=%s col4=%s panel-width=%s",
         sh_escape(title),
-        sh_escape(jq_items("[to_entries | .[] | select(.key % 4 == 0) | .value]")),
-        sh_escape(jq_items("[to_entries | .[] | select(.key % 4 == 1) | .value]")),
-        sh_escape(jq_items("[to_entries | .[] | select(.key % 4 == 2) | .value]")),
-        sh_escape(jq_items("[to_entries | .[] | select(.key % 4 == 3) | .value]")),
+        sh_escape(cols[1]),
+        sh_escape(cols[2]),
+        sh_escape(cols[3]),
+        sh_escape(cols[4]),
         sh_escape(lw .. "px")
       )
     )

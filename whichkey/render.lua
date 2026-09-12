@@ -146,8 +146,11 @@ function Render.show(submap, screen, geometry)
   local window = "whichkey-" .. pos
   local title = submap == "GLOBAL" and "Global Bindings" or submap
 
+  local rows_fit = math.max(1, math.floor((lh * 0.9 - 102) / 24))
+  local ncols = math.min(4, math.ceil(num_items / rows_fit))
+
   Eww.run("update visible=false")
-  Eww.update_layout(pos, title, items, lw, jq_items)
+  Eww.update_layout(pos, title, items, lw, jq_items, ncols)
   os.remove(items_tmp)
 
   if not is_submap_active(submap) then return end
