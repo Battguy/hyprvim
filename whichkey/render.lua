@@ -133,8 +133,7 @@ function Render.show(submap, screen, geometry)
     )
   end
   if info == "" then info = "1920x1080x1.0" end
-  local pw, ph, ps = info:match("^(%d+)x(%d+)x([%d%.]+)")
-  local lw = math.floor((tonumber(pw) or 1920) / (tonumber(ps) or 1))
+  local _, ph, ps = info:match("^(%d+)x(%d+)x([%d%.]+)")
   local lh = math.floor((tonumber(ph) or 1080) / (tonumber(ps) or 1))
 
   -- Panel chrome plus per-row height, measured from the rendered widget at the default theme
@@ -150,7 +149,7 @@ function Render.show(submap, screen, geometry)
   local ncols = math.min(4, math.ceil(num_items / rows_fit))
 
   Eww.run("update visible=false")
-  Eww.update_layout(pos, title, items, lw, jq_items, ncols)
+  Eww.update_layout(pos, title, items, jq_items, ncols)
   os.remove(items_tmp)
 
   if not is_submap_active(submap) then return end

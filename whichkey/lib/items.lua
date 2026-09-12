@@ -127,7 +127,6 @@ function Items.build_register_items(sm)
 
   items[#items + 1] = make_item("/", "search", Find.get_term(), "Search register")
 
-  if #items == 0 then return nil end
   return "[" .. table.concat(items, ",") .. "]"
 end
 

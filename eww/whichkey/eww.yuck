@@ -5,7 +5,6 @@
 (defvar col2 "[]")
 (defvar col3 "[]")
 (defvar col4 "[]")
-(defvar panel-width "100%") ; Logical monitor width, set by render script
 
 (defwidget row [k d ?c ?t]
   (box :class "wk-row" :orientation "h" :spacing 6 :space-evenly false

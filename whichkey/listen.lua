@@ -138,7 +138,7 @@ local function read_oneshot_flags(state_dir)
   local target_path = state_dir .. "/whichkey-skip-target"
   local delay_path = state_dir .. "/whichkey-next-delay"
 
-  local skip_next = io.open(skip_path, "r") ~= nil
+  local skip_next = file_exists(skip_path)
   local skip_target = read_file(target_path)
   local next_delay = read_file(delay_path)
 
