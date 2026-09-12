@@ -9,7 +9,8 @@ def normalize_key(key; modmask):
     | gsub("SEMICOLON"; ";") | gsub("APOSTROPHE"; "'")
     | gsub("GRAVE"; "`") | gsub("BRACKETLEFT"; "[") | gsub("BRACKETRIGHT"; "]")
     | gsub("MINUS"; "-") | gsub("EQUAL"; "=")
-    | gsub("ESCAPE"; "ESC") | gsub("RETURN"; "RET") | gsub("BACKSPACE"; "BS")
+    | gsub("ESCAPE"; "ESC") | gsub("RETURN"; "RET")
+    | gsub("BACKSPACE"; "BS") | gsub("BackSpace"; "BS")
     | gsub("tab"; "TAB")
   ) as $k |
   if (($shift or $ctrl or $alt or $super) | not) then
