@@ -55,7 +55,13 @@ def normalize_key(key; modmask):
     }
 ]
 | (map(select(.key == "ESC"))) as $esc
-| (map(select(.key != "ESC" and (.key | test("C-|A-|M-|S-"))))) as $mods
-| (map(select(.key != "ESC" and (.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$"))))) as $letters
-| (map(select(.key != "ESC" and (.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$") | not)))) as $special
-| ($letters | sort_by(.key | ascii_downcase)) + ($special | sort_by(.key)) + ($mods | sort_by(.key)) + $esc
+| (map(select(.key != "ESC" and .class == "is-submap"))) as $groups
+| (map(select(.key != "ESC" and .class != "is-submap"))) as $rest
+| ($rest | map(select(.key | test("C-|A-|M-|S-")))) as $mods
+| ($rest | map(select((.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$"))))) as $letters
+| ($rest | map(select((.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$") | not)))) as $special
+| ($letters | sort_by(.key | ascii_downcase))
+  + ($special | sort_by(.key))
+  + ($mods | sort_by(.key))
+  + ($groups | sort_by(.desc | ltrimstr("+") | ascii_downcase))
+  + $esc
