@@ -1,6 +1,6 @@
 # HyprVim Release Notes
 
-## Unreleased
+## [v3.0.0](https://github.com/uhs-robert/hyprvim/releases/tag/v3.0.0) - 2026-09-17
 
 ### Breaking Changes
 
