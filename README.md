@@ -10,6 +10,7 @@
   <a href="https://github.com/uhs-robert/hyprvim/contributors"><img src="https://img.shields.io/github/contributors/uhs-robert/hyprvim?colorA=192330&colorB=8FD1C7&style=for-the-badge&cacheSeconds=4300" alt="Contributors"></a>
   <a href="https://github.com/uhs-robert/hyprvim/network/members"><img src="https://img.shields.io/github/forks/uhs-robert/hyprvim?colorA=192330&colorB=C799FF&style=for-the-badge&cacheSeconds=4300" alt="Forks"></a>
   <a href="https://github.com/uhs-robert/hyprvim/releases"><img src="https://img.shields.io/github/v/release/uhs-robert/hyprvim?colorA=192330&colorB=6DDFA0&style=for-the-badge&cacheSeconds=4300" alt="Latest Release"></a>
+  <a href="https://discord.gg/Kr5JrhVR8R"><img src="https://img.shields.io/badge/Discord-Join-5865F2?colorA=192330&colorB=b4befe&style=for-the-badge" alt="Discord"></a>
 </p>
 
 ## 🌅 Overview
@@ -427,3 +428,9 @@ Custom commands appear in tab-completion alongside the built-in ones.
 You can also reference HyprVim submaps in your own keybinds after sourcing HyprVim and use HyprVim scripts in your own keybinds. Some examples are included in [Hyprland basics](./extras/hyprland-basics).
 
 If you make an enhancement that you think would benefit the community then please submit a pull request and I'll be happy to review it.
+
+## 💬 Community
+
+Questions, ideas, or want to show off your config? Join the [HyprVim Discord](https://discord.gg/Kr5JrhVR8R).
+
+Bug reports and feature requests still belong in [GitHub issues](https://github.com/uhs-robert/hyprvim/issues) so they don't get lost in chat.

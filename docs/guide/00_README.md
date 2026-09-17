@@ -19,5 +19,6 @@ From there, work your way through [Basics](02_Basics.md), [Modes](03_Modes.md), 
 - **GitHub:** [HyprVim Repository](https://github.com/uhs-robert/hyprvim)
 - **Help Viewer:** Press `gh` in NORMAL mode or use `:help` in command mode
 - **Issues:** Report bugs or request features on GitHub
+- **Discord:** Ask questions and chat with other users in the [HyprVim Discord](https://discord.gg/Kr5JrhVR8R)
 
 <div align=right><a href="01_Configuration.md"><i>>> Next: Go to Configuration</i></a></div>
