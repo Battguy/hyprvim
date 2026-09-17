@@ -9,7 +9,7 @@ local Common = {}
 
 --- @return string leader, string activate, string exit
 function Common.keys()
-  return config.keys.leader or "SUPER", config.keys.activate or "ESCAPE", config.keys.exit or "ESCAPE"
+  return config.keys.leader or "SUPER", config.keys.activate or "V", config.keys.exit or "ESCAPE"
 end
 
 --- LEADER+ACT / LEADER+EXIT exit-vim rows.

@@ -1,5 +1,15 @@
 # HyprVim Release Notes
 
+## Unreleased
+
+### Breaking Changes
+
+**Default activation chord is now `SUPER + V`, exit is `SUPER + ESCAPE`**
+
+The old `SUPER + ESCAPE` / `SUPER + SHIFT + ESCAPE` pair had no mnemonic plus the exit chord was a bit long/complex. You know it's bad when you're the creator and not even you use the default config! `V` is easy to remember, it stands for Vim mode.
+
+> [!NOTE] Some setups may already bind `SUPER + V` to clipboard history; if yours does, then set `keys.activate` to another free key.
+
 ## [v2.1.0](https://github.com/uhs-robert/hyprvim/releases/tag/v2.1.0) - 2026-09-14
 
 ### New Features

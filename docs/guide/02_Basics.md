@@ -2,7 +2,7 @@ Basic commands required for Vim movement, navigation, operators, counts, and tex
 
 ## 💻️ Enter Vim Mode
 
-**Default:** The activation chord is `SUPER + ESCAPE`, which enters NORMAL mode from Hyprland.
+**Default:** The activation chord is `SUPER + V`, which enters NORMAL mode from Hyprland.
 
 > [!IMPORTANT]
 > This is configured in `setup({ keys = { ... } })` per [Configuration](01_Configuration.md#configuration).
@@ -242,7 +242,7 @@ vjjgs → <p>       - Select 3 lines, surround with <p>lines</p>
 | `leader + activate` | Enter NORMAL mode or exit HyprVim, depending on state |
 | `leader + exit`     | Exit Vim mode entirely (back to Hyprland)             |
 
-The default chords are `SUPER + ESCAPE` and `SUPER + SHIFT + ESCAPE`.
+The default chords are `SUPER + V` and `SUPER + ESCAPE`.
 
 ---
 

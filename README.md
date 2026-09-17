@@ -51,7 +51,7 @@ Built on Hyprland’s native submap system, uses standard GUI application keyboa
 - **Open Vim/Nvim Anywhere** - Press `SUPER + N` to open selected text in Vim/Nvim for complex editing. Save/close to paste.
 
 > [!WARNING]
-> Just like real Vim, you also need to know how to exit HyprVim: press `SUPER + ESC` or `ALT + ESC`
+> Just like real Vim, you also need to know how to exit HyprVim: press `SUPER + ESC` or `SUPER + V` again
 
 <details>
 <summary><h3>🍭 Extras</h3></summary>
@@ -173,7 +173,13 @@ hyprctl reload
 ```
 
 > [!TIP]
-> **Verify installation**: Press `SUPER + ESC` and you should enter **NORMAL** mode.
+> **Verify installation**: Press `SUPER + V` and you should enter **NORMAL** mode.
+
+If `SUPER + V` does nothing after install, it is taken by something else in your config. Set `activate` to any free key:
+
+```lua
+require("hyprvim").setup({ keys = { activate = "ESCAPE" } })
+```
 
 ## 🔄 Staying Updated
 
@@ -206,17 +212,17 @@ updates = {
 
 ### Quick Start
 
-Press `SUPER + ESCAPE` (or your configured leader key + activation key) to enter **NORMAL** mode.
+Press `SUPER + V` (or your configured leader key + activation key) to enter **NORMAL** mode.
 
 #### Basic Workflow
 
-1. **Enter NORMAL mode**: `SUPER + ESC`
+1. **Enter NORMAL mode**: `SUPER + V`
 2. **See all keybindings**: Press `gh` to show help
 3. **Navigate**: Use `hjkl`, `w`, `b`, `e` to move around
 4. **Select text/items**: Press `v` for visual mode, then navigate to select
 5. **Edit**: Use operators like `d`, `c`, `y` with motions or in visual mode
 6. **Return to insert**: Press `i`, `a`, or other insert commands
-7. **Exit Vim mode**: Press `SUPER + ESC` again
+7. **Exit Vim mode**: Press `SUPER + V` again or `SUPER + ESC`
 
 ### Marks
 
@@ -258,8 +264,8 @@ HyprVim offers _many_ different options to choose from. Have fun customizing wit
 require("hyprvim").setup({
   keys = {
     leader = "SUPER",
-    activate = "ESCAPE",
-    exit = "SHIFT + ESCAPE",
+    activate = "V",
+    exit = "ESCAPE",
   },
   applications = {
     terminal = "kitty",

@@ -7,7 +7,7 @@ package.path = root .. "?.lua;" .. root .. "?/init.lua;" .. package.path
 
 local Config = require("config") ---@class HyprVimConfigModule
 local leader = (Config.keys or {}).leader or "SUPER"
-local act = (Config.keys or {}).activate or "ESCAPE"
+local act = (Config.keys or {}).activate or "V"
 
 -- Global Activation: Enters NORMAL mode.
 hl.bind(leader .. " + " .. act, function()
