@@ -47,5 +47,9 @@
           inherit hyprvim;
           default = hyprvim;
         });
+
+      homeManagerModules.default = import ./nix/home-manager.nix {
+        inherit self;
+      };
     };
 }
