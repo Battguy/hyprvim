@@ -94,7 +94,10 @@ $accent: #FFA0A0;
 $info: #B0C8DE;
 
 $base_font_size = 12px
+$row_padding_y = 2px
 ```
+
+`$row_padding_y` is the vertical padding on each key row. Lower it (for example `1px` or `0px`) for a more compact list.
 
 Edit `whichkey.scss` for layout and spacing overrides:
 

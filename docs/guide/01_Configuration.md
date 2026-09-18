@@ -13,10 +13,16 @@ All [default options are listed here](https://github.com/uhs-robert/hyprvim/tree
 Controls the chords used to enter and exit HyprVim.
 
 - `leader` defaults to `SUPER`
-- `activate` defaults to `ESCAPE`
-- `exit` defaults to `SHIFT + ESCAPE`
+- `activate` defaults to `V`
+- `exit` defaults to `ESCAPE`
 
 The activation chord starts NORMAL mode from Hyprland. The exit chord leaves HyprVim entirely.
+
+`V` is mnemonic for Vim mode, but some setups already bind `SUPER + V` to clipboard history. If the chord does nothing after install, it is taken by something else. Set `activate` to any free key:
+
+```lua
+require("hyprvim").setup({ keys = { activate = "ESCAPE" } })
+```
 
 ### `applications`
 

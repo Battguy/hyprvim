@@ -138,7 +138,7 @@ local function read_oneshot_flags(state_dir)
   local target_path = state_dir .. "/whichkey-skip-target"
   local delay_path = state_dir .. "/whichkey-next-delay"
 
-  local skip_next = io.open(skip_path, "r") ~= nil
+  local skip_next = file_exists(skip_path)
   local skip_target = read_file(target_path)
   local next_delay = read_file(delay_path)
 
@@ -182,7 +182,15 @@ local function make_spawner(eww_dir, state_dir, render, position)
   return function(sm)
     local mon = hl.get_active_monitor()
     local screen = (mon and mon.name) or ""
-    local geometry = mon and string.format("%dx%dx%s", mon.width, mon.height, mon.scale) or ""
+    local rotated = mon and ((mon.transform or 0) % 2 == 1)
+    local geometry = mon
+        and string.format(
+          "%dx%dx%s",
+          rotated and mon.height or mon.width,
+          rotated and mon.width or mon.height,
+          mon.scale
+        )
+      or ""
     local csm = state_dir .. "/current-submap"
     os.execute(
       sh_escape(script)

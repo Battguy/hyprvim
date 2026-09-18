@@ -1,5 +1,37 @@
 # HyprVim Release Notes
 
+## [v3.0.0](https://github.com/uhs-robert/hyprvim/releases/tag/v3.0.0) - 2026-09-17
+
+### Breaking Changes
+
+**Default activation chord is now `SUPER + V`, exit is `SUPER + ESCAPE`**
+
+The old `SUPER + ESCAPE` / `SUPER + SHIFT + ESCAPE` pair had no mnemonic plus the exit chord was a bit long/complex. You know it's bad when you're the creator and not even you use the default config! `V` is easy to remember, it stands for Vim mode.
+
+> [!NOTE] Some setups may already bind `SUPER + V` to clipboard history; if yours does, then set `keys.activate` to another free key.
+
+## [v2.1.0](https://github.com/uhs-robert/hyprvim/releases/tag/v2.1.0) - 2026-09-14
+
+### New Features
+
+- **Diagonal cursor movement**: chord binds (for example `H+K`) move the cursor omni-directionally across every speed tier, in addition to the cardinal `H`/`J`/`K`/`L` axes. Both key orderings are bound, since Hyprland chords are order-sensitive.
+- **QuickClick submap**: `LEADER+;` gives one-shot label-jump clicking without entering the full Cursor submap. Cursor mode also gains reordered click mappings and right-click variants for `wl-kbptr`.
+- **Submap groups sorted into their own section**: nested submaps now sort to the bottom of the which-key list by name instead of being interleaved with plain bindings.
+- **Submap exit keys hidden from the list**: `ESC` and `BS` already appear in the HUD footer, so the per-submap exit rows are gone.
+- **Configurable row density**: new `$row_padding_y` in `theme.conf` tunes the vertical padding on each key row.
+
+### Bug Fixes
+
+- **Temp files stay private**: clipboard reads, register previews and prompt input used `os.tmpname`, leaving mode-0644 files in `/tmp` holding whatever you copied or typed, under a name any local user could predict. They now live under `$XDG_RUNTIME_DIR/hyprvim/tmp` (0700).
+- **Center layouts scale to the item count**: a six-item submap no longer renders as four near-empty columns; the column count follows how many rows actually fit the monitor.
+- **Overflow stays on the configured edge**: a long list on a top-anchored HUD no longer flips to bottom-center.
+- **Vertical layout kept on more monitors**: panel height was overestimated and rotated monitors reported their unrotated height, so the column fallback fired on screens where the list fit fine. Chrome and row height now come from the measured widget.
+- **`BackSpace` labels normalized to `BS`**: non-exit bindings on that key rendered the raw Hyprland name.
+
+### Internal
+
+- Dead which-key panel-width plumbing removed, along with a file handle leaked on every submap change.
+
 ## [v2.0.1](https://github.com/uhs-robert/hyprvim/releases/tag/v2.0.1) - 2026-06-16
 
 ### Bug Fixes

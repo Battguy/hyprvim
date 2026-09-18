@@ -18,8 +18,8 @@ local XCC = os.getenv("XDG_CONFIG_HOME") or ((os.getenv("HOME") or "") .. "/.con
 
 --- @class HyprVimKeys
 --- @field leader?   "SUPER"|"ALT"|"CTRL"|"SHIFT"|"META"|"HYPER"  Hyprland modifier key used as the vim leader
---- @field activate? string  Key name pressed together with leader to enter NORMAL mode (e.g. "ESCAPE")
---- @field exit?     string  Key name pressed together with leader to exit ANY mode (e.g. "SHIFT + ESCAPE")
+--- @field activate? string  Key name pressed together with leader to enter NORMAL mode (e.g. "V")
+--- @field exit?     string  Key name pressed together with leader to exit ANY mode (e.g. "ESCAPE")
 
 --- @class HyprVimTermFlags
 --- @field class string  Flag used to set the window class (e.g. "--class" or "--app-id")
@@ -88,8 +88,8 @@ Config.install_dir = (debug.getinfo(1, "S").source:match("^@(.+)/config%.lua$") 
 Config.defaults = {
   keys = {
     leader   = "SUPER",
-    activate = "ESCAPE",
-    exit     = "SHIFT + ESCAPE",
+    activate = "V",
+    exit     = "ESCAPE",
   },
   applications = {
     terminal     = "kitty",

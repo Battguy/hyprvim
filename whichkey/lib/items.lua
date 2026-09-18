@@ -67,18 +67,15 @@ function Items.build_mark_items(sm)
 
   -- MARKS / DELETE-MARK: always return a result (never fall through to hyprctl so stale
   -- hl.bind descriptions never leak into the HUD as ghost entries).
-  local static_items
-  if sm == "DELETE-MARK" then
-    static_items = '[{"key":"DELETE","desc":"Clear all marks","class":""},{"key":"ESCAPE","desc":"Exit","class":""}]'
-  else
-    static_items = '[{"key":"ESCAPE","desc":"Exit","class":""}]'
-  end
+  -- Exit keys live in the HUD footer; the placeholder keeps the HUD open when no marks exist
+  local empty_items = '[{"key":"-","desc":"No marks set","class":""}]'
+  local tail_items = sm == "DELETE-MARK" and '[{"key":"DELETE","desc":"Clear all marks","class":""}]' or "[]"
 
-  if not file_exists(marks_file) then return static_items end
+  if not file_exists(marks_file) then return empty_items end
 
-  local result =
-    pread("jq -c '(" .. marks_jq .. ") + " .. static_items .. "' " .. sh_escape(marks_file) .. " 2>/dev/null")
-  if result == "" or result == "null" then return static_items end
+  local expr = "((" .. marks_jq .. ") + " .. tail_items .. ") | if length > 0 then . else " .. empty_items .. " end"
+  local result = pread("jq -c " .. sh_escape(expr) .. " " .. sh_escape(marks_file) .. " 2>/dev/null")
+  if result == "" or result == "null" then return empty_items end
   return result
 end
 
@@ -130,7 +127,6 @@ function Items.build_register_items(sm)
 
   items[#items + 1] = make_item("/", "search", Find.get_term(), "Search register")
 
-  if #items == 0 then return nil end
   return "[" .. table.concat(items, ",") .. "]"
 end
 
@@ -142,7 +138,7 @@ function Items.resolve(submap)
   local function fetch()
     return Items.build_mark_items(submap) or Items.build_register_items(submap) or Hyprctl.build_items(submap) or "[]"
   end
-  local tmp = os.tmpname()
+  local tmp = Utils.tmp_path("whichkey-items")
   local items = fetch()
   write_file(tmp, items)
   local count = tonumber(pread("jq -c 'length' " .. sh_escape(tmp) .. " 2>/dev/null")) or 0

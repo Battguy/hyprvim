@@ -100,6 +100,24 @@ Utils.pread = function(cmd)
   return s
 end
 
+--- Unique path under the private runtime state dir, for temp files that may hold user data.
+--- Replaces os.tmpname, whose /tmp path is world-readable and predictable.
+--- @param prefix string
+--- @return string
+local tmp_seq = 0
+local tmp_dir_ready = false
+-- Table address differs per process, so concurrent renderers cannot pick the same name
+math.randomseed(os.time() + (tonumber(tostring({}):match("0x(%x+)") or "0", 16) or 0))
+Utils.tmp_path = function(prefix)
+  local dir = require("config").state_dir .. "/tmp"
+  if not tmp_dir_ready then
+    os.execute("mkdir -p -m 700 " .. Utils.sh_escape(dir))
+    tmp_dir_ready = true
+  end
+  tmp_seq = tmp_seq + 1
+  return string.format("%s/%s-%d-%d-%d", dir, prefix, os.time(), math.random(0, 999999), tmp_seq)
+end
+
 --- Single-quotes s for safe shell interpolation.
 --- @param s string|number
 --- @return string

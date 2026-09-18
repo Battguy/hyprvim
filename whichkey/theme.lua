@@ -29,6 +29,9 @@ $info: #B0C8DE;
 
 # Base font size (all other sizes scale from this)
 $base_font_size = 12px
+
+# Vertical padding per key row (lower = more compact list)
+$row_padding_y = 2px
 ]]
 
 local DEFAULT_USER_SCSS = [[
@@ -45,6 +48,9 @@ local DEFAULT_USER_SCSS = [[
 
 // Tighter padding
 // .wk { padding: 6px 10px; }
+
+// Tighter rows (or set $row_padding_y in theme.conf)
+// .wk-row { padding: 0 5px; }
 
 // Larger font
 // * { font-size: 14px; }

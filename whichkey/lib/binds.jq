@@ -9,7 +9,8 @@ def normalize_key(key; modmask):
     | gsub("SEMICOLON"; ";") | gsub("APOSTROPHE"; "'")
     | gsub("GRAVE"; "`") | gsub("BRACKETLEFT"; "[") | gsub("BRACKETRIGHT"; "]")
     | gsub("MINUS"; "-") | gsub("EQUAL"; "=")
-    | gsub("ESCAPE"; "ESC") | gsub("RETURN"; "RET") | gsub("BACKSPACE"; "BS")
+    | gsub("ESCAPE"; "ESC") | gsub("RETURN"; "RET")
+    | gsub("BACKSPACE"; "BS") | gsub("BackSpace"; "BS")
     | gsub("tab"; "TAB")
   ) as $k |
   if (($shift or $ctrl or $alt or $super) | not) then
@@ -48,6 +49,13 @@ def normalize_key(key; modmask):
       else (.submap // "") == $sm end
     )
   | select((.description // "") != "")
+  # Exit keys are shown in the HUD footer, not as rows
+  | select(
+      ((.key // "" | ascii_downcase) as $k | ($k == "escape" or $k == "backspace"))
+      and ((.modmask // 0) == 0)
+      and ((.description // "") | test("^(exit|back|close|cancel|escape)\\b"; "i"))
+      | not
+    )
   | {
       key:   normalize_key(.key // ""; .modmask // 0),
       desc:  (.description // ""),
@@ -55,7 +63,13 @@ def normalize_key(key; modmask):
     }
 ]
 | (map(select(.key == "ESC"))) as $esc
-| (map(select(.key != "ESC" and (.key | test("C-|A-|M-|S-"))))) as $mods
-| (map(select(.key != "ESC" and (.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$"))))) as $letters
-| (map(select(.key != "ESC" and (.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$") | not)))) as $special
-| ($letters | sort_by(.key | ascii_downcase)) + ($special | sort_by(.key)) + ($mods | sort_by(.key)) + $esc
+| (map(select(.key != "ESC" and .class == "is-submap"))) as $groups
+| (map(select(.key != "ESC" and .class != "is-submap"))) as $rest
+| ($rest | map(select(.key | test("C-|A-|M-|S-")))) as $mods
+| ($rest | map(select((.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$"))))) as $letters
+| ($rest | map(select((.key | test("C-|A-|M-|S-") | not) and (.key | test("^[a-zA-Z]$") | not)))) as $special
+| ($letters | sort_by(.key | ascii_downcase))
+  + ($special | sort_by(.key))
+  + ($mods | sort_by(.key))
+  + ($groups | sort_by(.desc | ltrimstr("+") | ascii_downcase))
+  + $esc

@@ -4,6 +4,7 @@
 -- offload both operations outside the Lua event loop via Hypr.exec.
 
 local Hypr = require("hypr") ---@class HyprVimHyprland
+local Utils = require("lib.utils") ---@class HyprVimUtils
 
 local Clipboard = {} ---@class Clipboard
 
@@ -17,7 +18,7 @@ local SETTLE_MS = 50
 ---@param delay_ms integer
 ---@param cb fun(content: string)  receives selection text ("" if empty)
 local function read_selection(flag, delay_ms, cb)
-  local path = os.tmpname()
+  local path = Utils.tmp_path("clip")
   hl.timer(function()
     Hypr.exec("wl-paste " .. flag .. "--no-newline 2>/dev/null >'" .. path .. "' || true")
     hl.timer(function()
@@ -35,7 +36,7 @@ end
 ---@param flag string  wl-copy flags ("", "--primary " or "--type text/plain ")
 ---@param text string
 local function write_selection(flag, text)
-  local path = os.tmpname()
+  local path = Utils.tmp_path("clip")
   local f = io.open(path, "w")
   if not f then return end
   f:write(text)

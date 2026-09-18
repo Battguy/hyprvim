@@ -128,22 +128,28 @@ function Render.show(submap, screen, geometry)
     info = pread(
       "hyprctl -j monitors 2>/dev/null | jq -r --arg n "
         .. sh_escape(screen)
-        .. " '.[] | select(.name == $n) | \"\\(.width)x\\(.height)x\\(.scale)\"' 2>/dev/null"
+        .. " '.[] | select(.name == $n) | (.transform % 2 == 1) as $rot"
+        .. ' | "\\(if $rot then .height else .width end)x\\(if $rot then .width else .height end)x\\(.scale)"\' 2>/dev/null'
     )
   end
   if info == "" then info = "1920x1080x1.0" end
-  local pw, ph, ps = info:match("^(%d+)x(%d+)x([%d%.]+)")
-  local lw = math.floor((tonumber(pw) or 1920) / (tonumber(ps) or 1))
+  local _, ph, ps = info:match("^(%d+)x(%d+)x([%d%.]+)")
   local lh = math.floor((tonumber(ph) or 1080) / (tonumber(ps) or 1))
 
+  -- Panel chrome plus per-row height, measured from the rendered widget at the default theme
   local pos = Render.position
-  if not pos:find("center") and (16 + 30 + (num_items * 26) + 90) > lh * 0.8 then pos = "bottom-center" end
+  if not pos:find("center") and (102 + num_items * 24) > lh * 0.9 then
+    pos = pos:find("^top") and "top-center" or "bottom-center"
+  end
 
   local window = "whichkey-" .. pos
   local title = submap == "GLOBAL" and "Global Bindings" or submap
 
+  local rows_fit = math.max(1, math.floor((lh * 0.9 - 102) / 24))
+  local ncols = math.min(4, math.ceil(num_items / rows_fit))
+
   Eww.run("update visible=false")
-  Eww.update_layout(pos, title, items, lw, jq_items)
+  Eww.update_layout(pos, title, items, jq_items, ncols)
   os.remove(items_tmp)
 
   if not is_submap_active(submap) then return end
